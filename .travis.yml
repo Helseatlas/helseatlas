@@ -1,0 +1,24 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+sudo: false
+cache: packages
+warnings_are_errors: true
+
+r:
+  - release
+
+before_install:
+  - Rscript -e "if (!require('covr')) install.packages('covr')"
+  - Rscript -e "if (!require('roxygen2')) install.packages('roxygen2')"
+  - Rscript -e "if (!require('devtools')) install.packages('devtools')"
+  - Rscript -e "if (!require('pkgdown')) devtools::install_github('hadley/pkgdown')"
+
+script:
+  - R CMD build .
+  - R CMD check *tar.gz
+
+after_success:
+#  - Rscript -e 'covr::codecov()'
+  - Rscript -e 'devtools::document()'
+  - Rscript -e 'pkgdown::build_site()'
