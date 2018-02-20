@@ -12,3 +12,4 @@ Imports:
   shiny,
   shinythemes,
   rsconnect
+Suggests: testthat
