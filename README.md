@@ -18,5 +18,17 @@ httr::set_config(httr::use_proxy(url="http://www-proxy.helsenord.no", port=8080)
 ```
 
 
+## How to use the package
+
+**TBA**
+
+```
+# Launch locally
+shinymap::launch_application()
+
+# Submit to shinyapp.io
+shinymap::submit_application()
+```
+
 
 
