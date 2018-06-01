@@ -3,7 +3,7 @@
 R-package to produce maps of Norway with R Shiny
 
 Will be used to produce maps on the helseatlas.no
-web page.
+web page. A working document on the process of going from IA to RShiny can be found [here](https://www.overleaf.com/read/qknnddwjnpfn) (read only).
 
 ## How to install the package
 
