@@ -4,7 +4,18 @@
 \alias{submit_application}
 \title{Submit the application to shinyapp.io}
 \usage{
-submit_application()
+submit_application(datasett = NULL, name = "experimental",
+  HNproxy = FALSE, shiny_account = "skde")
+}
+\arguments{
+\item{datasett}{The data set file (.RData) to be loaded into the application.
+The absolute path has to be given}
+
+\item{name}{The appName of the deployed shiny application (default = "experimental")}
+
+\item{HNproxy}{If TRUE: deploy app through proxy}
+
+\item{shiny_account}{Which shiny account on shinyapps.io (default = "skde")}
 }
 \description{
 Submit the application to shinyapp.io
