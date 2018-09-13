@@ -1,89 +1,138 @@
 shinyServer(
-  
+
   function(input, output) {
-    
-    output$pickTheme <- renderUI({
-      selectInput(inputId = "kartlag",
-                  label = "Velg et tema:",
-                  choices = c("Personer til fastlege/legevakt", 
-                              "Personer poliklinikk", 
-                              "Akuttinnlagte personer"))
+
+    if (file.exists("data/data.RData")){
+      # load information sent through "launch_application" or "submit_application"
+      load("data/data.RData")
+    }
+
+    if (!exists("healthatlas_data")){
+      healthatlas_data <- NULL
+    }
+
+    if (is.null(language) || !exists("language")){
+      # Define language to Norwegian, if not defined
+      language <- "no"
+    }
+
+    if (is.null(title) || !exists("title")){
+      # Define the atlas title, if not defined
+      title <- "Helseatlas"
+    }
+
+    if (language == "no"){
+      lang = 1
+    } else if (language == "en"){
+      lang = 2
+    } else { # default language value
+      lang = 1
+    }
+
+    level1 <- c(levels(factor(healthatlas_data$level1)))
+
+    level2 <- eventReactive(input$level1,{
+      tmpdata <- dplyr::filter(healthatlas_data, level1 == input$level1)
+      level2 <- c(levels(factor(tmpdata$level2)))
+      return(level2)
     })
-    
+
+    level3 <- eventReactive(c(input$level1, input$level2), {
+      if(is.null(input$level2)){return()}
+      tmpdata1 <- dplyr::filter(healthatlas_data, level1 == input$level1)
+      tmpdata2 <- dplyr::filter(tmpdata1, level2 == input$level2)
+      level3 <- c(levels(factor(tmpdata2$level3)))
+      return(level3)
+    })
+
+    output$pickLevel1 <- renderUI({
+      selectInput(inputId = "level1",
+                  label = c("Velg et tema:", "Pick a subject")[lang],
+                  choices = level1,
+                  selected = level1[1])
+    })
+
+    output$pickLevel2 <- renderUI({
+      if ("level2" %in% colnames(healthatlas_data)){
+        selectInput(inputId = "level2",
+                    label = c("Velg et tema:", "Pick a subject")[lang],
+                    choices = level2(),
+                    selected = level2()[1])
+
+      }
+    })
+
+    output$pickLevel3 <- renderUI({
+      if ("level3" %in% colnames(healthatlas_data)){
+        selectInput(inputId = "level3",
+                    label = c("Velg et tema:", "Pick a subject")[lang],
+                    choices = level3(),
+                    selected = level3()[1])
+      }
+    })
+
+
     output$makeTable <- renderUI({
-      tableOutput("kolstabell")
+      tableOutput("tabell")
     })
-    
+
     kartlagInput <- reactive({
-      switch(input$kartlag,
-             "Personer til fastlege/legevakt" = dplyr::filter(kols, id == "i0"),
-             "Personer poliklinikk" = dplyr::filter(kols, id == "i2"),
-             "Akuttinnlagte personer" = dplyr::filter(kols, id == "i4"))
+
+      datasett <- shinymap::filterOut(healthatlas_data, input$level1, input$level2, input$level3)
+      return(datasett)
     })
-    
+
     pickedData <- reactive({
       new_tab <- data.frame(kartlagInput()$area)
-      colnames(new_tab) <- c("Opptaksomr")
-      new_tab["Rate"] <- kartlagInput()$rate
-      new_tab["Antall"] <- kartlagInput()$numerater
-      new_tab["Innbyggere"] <- kartlagInput()$denominator
+      colnames(new_tab) <- c(c("Opptaksomr", "Area")[lang])
+      new_tab[c("Rate", "Rate")[lang]] <- kartlagInput()$rate
+      new_tab[c("Antall", "Num")[lang]] <- kartlagInput()$numerater
+      new_tab[c("Innbyggere", "Inhab")[lang]] <- kartlagInput()$denominator
       return(new_tab)
     })
-    
-    output$kolstabell<-renderTable({
+
+    output$tabell<-renderTable({
       pickedData()
     })
-    
+
     output$title <- renderUI({
-      return("Helseatlas kols")
+      return(HTML(paste0("<h1>", title, "</h1>")))
     })
-    
-    output$subtitle1 <- renderUI({
-      return("Velg tema")
+
+    output$titleTable <- renderUI({
+      return(c("Tabell","Table")[lang])
     })
-    
-    output$subtitle2 <- renderUI({
-      return("Plott")
+
+    output$titleMap <- renderUI({
+      return(c("Kart", "Map")[lang])
     })
-    
-    output$titletab1 <- renderUI({
-      return("Kart")
+
+    output$titleHist <- renderUI({
+      return(c("Histogram", "Histogram")[lang])
     })
-    
-    output$titletab2 <- renderUI({
-      return("Histogram")
-    })
-    
+
     output$makeMap <- renderUI({
-      leafletOutput("mymap")
+      # Make a leaflet map
+      leaflet::leafletOutput("leafletmap")
     })
-    
+
     output$plotHistogram <- renderUI({
-      plotOutput(outputId = "kolshisto")
+      # Make a histogram plot
+      shiny::plotOutput(outputId = "histogram")
     })
-    
-    output$kolshisto <- renderPlot({
-      
-      kolsdata <- data.frame(bohf=kartlagInput()$area, rate=kartlagInput()$rate)
-      
-      # barplot
-      ggplot(data=kartlagInput(), aes(x=reorder(area, rate), y=rate)) +
-        geom_bar(stat="identity", fill="#95BDE6") + 
-        labs(x = "Opptaksområde", y = input$kartlag) + 
-#        theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-        ggplot2::coord_flip() +
-        ggthemes::theme_tufte()
-#        theme(panel.background = element_blank())
-      
+
+    output$histogram <- renderPlot({
+
+      shinymap::plotVariation(inputData = kartlagInput(), xlab = c("Opptaksomr\u00E5de", "Area")[lang], ylab = input$level1)
+
     })
-    
-    output$mymap <- renderLeaflet({
-      leaflet() %>%
-        addTiles() %>%  # Add default OpenStreetMap map tiles
-        addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
-      
+
+    output$leafletmap <- leaflet::renderLeaflet({
+
+      shinymap::makeLeafletmap(inputData = kartlagInput())
+
     })
-    
+
   }
-  
+
 )
