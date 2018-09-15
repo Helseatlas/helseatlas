@@ -135,14 +135,12 @@ readIAjson <- function(json_file = NULL, testing = FALSE){
                     metatext[l] <- try(df_properties[, "value"][n])
                   }
                 } 
-              } else {
-                for (n in 1:length(df_properties$value)){
-                  if (df_properties[,paste0("name.", m)][n] == "metatext"){
-                    metatext[l] <- try(df_properties[,paste0("value.", m)][n])
-                  }
-                } 
-              }
-              
+              } #else { # NO TESTS FOR THIS, SO NOT SURE IF IT IS NEEDED
+              #for (n in 1:length(df_properties$value)){
+              #  if (df_properties[,paste0("name.", m)][n] == "metatext"){
+              #    metatext[l] <- try(df_properties[,paste0("value.", m)][n])
+              #  }
+              #}
             }
           }
         }
