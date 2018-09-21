@@ -15,12 +15,10 @@ shinyUI(function(request){
       uiOutput("pickLevel3")
     ),
     mainPanel(
-      absolutePanel(
         tabsetPanel(#type = "tabs", id="tab",
                  tabPanel(uiOutput("titleTable"), uiOutput("makeTable")),
                  tabPanel(uiOutput("titleMap"), uiOutput("makeMap")),
                  tabPanel(uiOutput("titleHist"), uiOutput("plotHistogram"))
     ))
-    )
   )
 })

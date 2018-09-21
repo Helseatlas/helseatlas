@@ -8,7 +8,7 @@ shinyServer(
     }
 
     if (!exists("healthatlas_data")){
-      healthatlas_data <- NULL
+      healthatlas_data <- shinymap::kols
     }
 
     if (!exists("language")|| is.null(language)){
