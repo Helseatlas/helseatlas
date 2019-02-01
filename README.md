@@ -45,7 +45,7 @@ git clone git@github.com:helseatlas/shinymap
   if ("covr" %in% rownames(installed.packages()) == FALSE) install.packages("covr")
 ```
 
-- Build the package (`Ctrl+Shift+B` or &#8984;-&#8679;-B). 
+- Build the package (Ctrl+Shift+B on Windows/Linux or &#8984;-&#8679;-B on Mac). 
 - Run the app, either by open the file `inst/app/server.R` and push the button or
 
 ```
