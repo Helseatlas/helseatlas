@@ -10,5 +10,5 @@ makeLeafletmap <- function(inputData = NULL){
   
   leaflet::leaflet(norway) %>% leaflet::setView(lng = 10.0, lat = 65.0, zoom = 4) %>%
     leaflet::addTiles() %>%
-    leaflet::addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+    leaflet::addPolygons(fillColor = grDevices::topo.colors(10, alpha = NULL), stroke = FALSE)
 }

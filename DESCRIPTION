@@ -2,6 +2,8 @@ Package: shinymap
 Title: R-package to produce shiny maps of Norway
 Version: 0.4.1
 Authors@R: person("Arnfinn Hykkerud", "Steindal", email = "arnfinn.steindal@skde.no", role = c("aut", "cre"))
+Author: Arnfinn Hykkerud Steindal [aut, cre]
+Maintainer: Arnfinn Hykkerud Steindal <arnfinn.steindal@skde.no>
 Description: Will be used to produce maps on the helseatlas.no web page.
 Depends: R (>= 3.4.0)
 License: file LICENSE
@@ -24,7 +26,8 @@ Imports:
   maps,
   geojsonio,
   rmapshaper,
-  rgdal
+  rgdal,
+  grDevices
 Suggests: 
     testthat,
     covr
