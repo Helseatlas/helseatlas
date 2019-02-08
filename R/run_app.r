@@ -7,7 +7,7 @@
 #' @export
 launch_app <- function(datasett = NULL, language = NULL, title = NULL){
   if (is.null(datasett)){
-    datasett <- kols
+    datasett <- eval(parse(text ="kols"))
   }
   shinydir <- create_appDir(healthatlas_data = datasett, language = language, webpage_title = title)
   shiny::runApp(appDir = shinydir)
