@@ -27,24 +27,7 @@ git clone git@github.com:helseatlas/shinymap
 ```
 
 - Open the `shinymap` folder in *RStudio*
-- Install required packages, if not installed already. For instance with the following lines:
-
-```
-  if ("shiny" %in% rownames(installed.packages()) == FALSE) install.packages("shiny")
-  if ("shinythemes" %in% rownames(installed.packages()) == FALSE) install.packages("shinythemes")
-  if ("rsconnect" %in% rownames(installed.packages()) == FALSE) install.packages("rsconnect")
-  if ("ggplot2" %in% rownames(installed.packages()) == FALSE) install.packages("ggplot2")
-  if ("leaflet" %in% rownames(installed.packages()) == FALSE) install.packages("leaflet")
-  if ("magrittr" %in% rownames(installed.packages()) == FALSE) install.packages("magrittr")
-  if ("dplyr" %in% rownames(installed.packages()) == FALSE) install.packages("dplyr")
-  if ("ggthemes" %in% rownames(installed.packages()) == FALSE) install.packages("ggthemes")
-  if ("tibble" %in% rownames(installed.packages()) == FALSE) install.packages("tibble")
-  if ("jsonlite" %in% rownames(installed.packages()) == FALSE) install.packages("jsonlite")
-  if ("maps" %in% rownames(installed.packages()) == FALSE) install.packages("maps")
-  if ("testthat" %in% rownames(installed.packages()) == FALSE) install.packages("testthat")
-  if ("covr" %in% rownames(installed.packages()) == FALSE) install.packages("covr")
-```
-
+- Install required packages, if not installed already. This can be done by `devtools::install_github("Helseatlas/shinymap")`. This will install the shinymap package from github and at the same time install all the required packages.
 - Build the package (Ctrl+Shift+B on Windows/Linux or &#8984;-&#8679;-B on Mac). 
 - Run the app, either by open the file `inst/app/server.R` and push the button or
 
