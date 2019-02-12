@@ -16,7 +16,7 @@ shp2geojson <- function(shapefile = "eldre",
   
 
   # Read shapefile
-  original_map <- rgdal::readOGR(dsn = folder, layer = shapefile)
+  original_map <- rgdal::readOGR(dsn = folder, layer = shapefile, verbose = FALSE)
   
   # Convert to geojson
   geojson_map <- geojsonio::geojson_json(original_map)
