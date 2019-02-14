@@ -63,10 +63,13 @@ metatext
 shinymap::launch_application(datasett = <datasett>)
 ```
 
-# Submit to shinyapp.io
+# Submit to shinyapps.io
+
+Make sure that the version of shinymap installed and active in your Rsession is installed directly from github,
+since it also has to be installed on shinyapps.io. Also remember to connect to your shinyapps.io profile. Then run the command
 
 ```
-shinymap::submit_application(datasett = <r data frame>, name = <appName>, shiny_account = <publishing account>)
+shinymap::launch_application(datasett = <r data frame>, publish_app = TRUE, name = <appName>, shiny_account = <publishing account>)
 ```
 
 
