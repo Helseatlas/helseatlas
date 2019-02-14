@@ -1,37 +1,41 @@
-#' Launch the application locally
+#' Launch the application, either locally or to shinyapps.io
 #'
-#' @param datasett The data set to be loaded into the application
+#' @param dataset The data set to be loaded into the application
 #' @param language The language of the atlas ("en" or "no")
 #' @param title The title of the atlas
-#'
-#' @export
-launch_app <- function(datasett = NULL, language = NULL, title = NULL){
-  if (is.null(datasett)){
-    datasett <- get("kols")
-  }
-  shinydir <- create_appDir(healthatlas_data = datasett, language = language, webpage_title = title)
-  shiny::runApp(appDir = shinydir)
-}
-
-
-#' Submit the application to shinyapp.io
-#'
-#' @param datasett The data set file (.RData) to be loaded into the application.
-#' The absolute path has to be given
+#' @param publish_app If TRUE: deploy app to shinyapps.io (default = FALSE)
 #' @param name The appName of the deployed shiny application (default = "experimental")
-#' @param HNproxy If TRUE: deploy app through proxy
 #' @param shiny_account Which shiny account on shinyapps.io (default = "skde")
-#' @param language The language of the atlas ("en" or "no")
-#' @param title The title of the atlas
+#' @param HNproxy If TRUE: deploy app through Helse Nord proxy (default = FALSE)
 #'
 #' @export
-submit_app <- function(datasett = NULL, name = "experimental", HNproxy = FALSE, shiny_account = "skde", language = NULL, title = NULL){
-  if (HNproxy){
-    options(RCurlOptions = list(proxy = "http://www-proxy.helsenord.no:8080"))
-    options(shinyapps.http = "rcurl")
+launch_app <- function(dataset = NULL,
+                       language = NULL,
+                       title = NULL,
+                       publish_app = FALSE,
+                       name = "experimental",
+                       shiny_account = "skde",
+                       HNproxy = FALSE){
+  
+  if (is.null(dataset)){
+    # If no dataset is defined, use the dataset shipped with the shinymap package
+    # (for testing only)
+    dataset <- shinymap::kols
   }
-  shinydir <- create_appDir(healthatlas_data = datasett, language = language, webpage_title = title)
-  rsconnect::deployApp(appDir = shinydir, appName = name, account = shiny_account)
+  
+  # Create a directory with all necessary data.
+  shinydir <- create_appDir(healthatlas_data = dataset, language = language, webpage_title = title)
+  
+  # Run the app
+  if (publish_app){
+    if (HNproxy){
+      options(RCurlOptions = list(proxy = "http://www-proxy.helsenord.no:8080"))
+      options(shinyapps.http = "rcurl")
+    }
+    rsconnect::deployApp(appDir = shinydir, appName = name, account = shiny_account)
+  } else {
+    shiny::runApp(appDir = shinydir)
+  }
 }
 
 #' Create an appDir for shiny::runApp and rsconnect::deployApp

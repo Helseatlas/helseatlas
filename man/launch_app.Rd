@@ -2,17 +2,27 @@
 % Please edit documentation in R/run_app.r
 \name{launch_app}
 \alias{launch_app}
-\title{Launch the application locally}
+\title{Launch the application, either locally or to shinyapps.io}
 \usage{
-launch_app(datasett = NULL, language = NULL, title = NULL)
+launch_app(dataset = NULL, language = NULL, title = NULL,
+  publish_app = FALSE, name = "experimental", shiny_account = "skde",
+  HNproxy = FALSE)
 }
 \arguments{
-\item{datasett}{The data set to be loaded into the application}
+\item{dataset}{The data set to be loaded into the application}
 
 \item{language}{The language of the atlas ("en" or "no")}
 
 \item{title}{The title of the atlas}
+
+\item{publish_app}{If TRUE: deploy app to shinyapps.io (default = FALSE)}
+
+\item{name}{The appName of the deployed shiny application (default = "experimental")}
+
+\item{shiny_account}{Which shiny account on shinyapps.io (default = "skde")}
+
+\item{HNproxy}{If TRUE: deploy app through Helse Nord proxy (default = FALSE)}
 }
 \description{
-Launch the application locally
+Launch the application, either locally or to shinyapps.io
 }
