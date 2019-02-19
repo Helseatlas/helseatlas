@@ -3,22 +3,18 @@ shinyServer(
   function(input, output) {
 
     if (file.exists("data/data.RData")){
-      # load information sent through "launch_application" or "submit_application"
+      # load information sent through "launch_application"
       load("data/data.RData")
     }
 
-    if (!exists("healthatlas_data")){
-      healthatlas_data <- shinymap::kols
+    if (isTRUE(getOption("shiny.testmode"))) {
+      # Load static/dummy data if this is a test run
+      healthatlas_data <- shinymap::testdata
     }
 
     if (!exists("language")|| is.null(language)){
       # Define language to Norwegian, if not defined
       language <- "no"
-    }
-
-    if (!exists("webpage_title") || is.null(webpage_title)){
-      # Define the atlas title, if not defined
-      webpage_title <- "Helseatlas"
     }
 
     if (language == "no"){
@@ -29,6 +25,11 @@ shinyServer(
       lang = 1
     }
 
+    if (!exists("webpage_title") || is.null(webpage_title)){
+      # Define the atlas title, if not defined
+      webpage_title <- c("Helseatlas","The Norwegian healthcare atlas")[lang]
+    }
+    
     level1 <- c(levels(factor(healthatlas_data$level1)))
 
     level2 <- eventReactive(input$level1,{
