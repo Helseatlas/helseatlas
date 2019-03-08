@@ -111,26 +111,39 @@ shinyServer(
       return(c("Histogram", "Histogram")[lang])
     })
 
-    output$makeMap <- renderUI({
+    output$pickMap <- renderUI({
+      selectInput(inputId = "maptype",
+                  label = c("Velg karttype", "Choose map type")[lang],
+                  choices = c("leaflet","simple"),
+                  selected = "leaflet")
       # Make a leaflet map
-      leaflet::leafletOutput("leafletmap")
+#      leaflet::leafletOutput("leafletmap")
     })
-
+    output$plotMap <- renderUI({
+      # Make a leaflet map
+      type <- input$maptype
+      if (is.null(type)){return(NULL)}
+      switch(type,
+             leaflet = {leaflet::leafletOutput("leafletmap")},
+             simple = {shiny::plotOutput(outputId = "simplemap")}
+      )
+    })
+    
     output$plotHistogram <- renderUI({
       # Make a histogram plot
       shiny::plotOutput(outputId = "histogram")
     })
 
+    output$simplemap <- renderPlot({
+      shinymap::makeMap(type = "simple", map = healthatlas_map)
+    })
+    
     output$histogram <- renderPlot({
-
       shinymap::plotVariation(inputData = kartlagInput(), xlab = c("Opptaksomr\u00E5de", "Area")[lang], ylab = input$level1)
-
     })
 
     output$leafletmap <- leaflet::renderLeaflet({
-
-      shinymap::makeLeafletmap(inputData = kartlagInput())
-
+      shinymap::makeMap(type = "leaflet", map = healthatlas_map)
     })
 
   }
