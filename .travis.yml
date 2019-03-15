@@ -1,5 +1,3 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
 language: r
 sudo: false
 cache: packages
@@ -8,19 +6,25 @@ warnings_are_errors: true
 r:
   - release
 
+addons:
+  apt:
+    packages:
+      - libcurl4-gnutls-dev
+      - libgit2-dev
+      - libssl-dev
+      - libudunits2-dev
+      - libprotobuf-dev
+      - libv8-dev
+      - libjq-dev
+      - protobuf-compiler
+      - libgdal-dev
+
 before_install:
-# Many of the packages has to be installed because of rgdal/rmapshaper
-  - sudo apt-get install -y libgdal-dev libspatialite5 libgeos-c1v5
-  - sudo apt-get install -y libprotobuf-dev libudunits2-dev libv8-dev libgdal1-dev
-  - sudo apt-get install -y libprotobuf-dev protobuf-compiler
-  - sudo add-apt-repository -y ppa:opencpu/jq
-  - sudo apt-get install -y libjq-dev
   - Rscript -e "if (!require('covr')) install.packages('covr')"
   - Rscript -e "if (!require('roxygen2')) install.packages('roxygen2')"
   - Rscript -e "if (!require('devtools')) install.packages('devtools')"
   - Rscript -e "if (!require('pkgdown')) devtools::install_github('r-lib/pkgdown')"
   - Rscript -e "if (!require('shinytest')) install.packages('shinytest')"
-  - Rscript -e "shinytest::installDependencies()" # Install phantomjs
 
 script:
   - R CMD build .
