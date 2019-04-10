@@ -29,7 +29,7 @@ shinyServer(
       # Define the atlas title, if not defined
       webpage_title <- c("Helseatlas","The Norwegian healthcare atlas")[lang]
     }
-
+    
     level1 <- c(levels(factor(healthatlas_data$level1)))
 
     level2 <- eventReactive(input$level1,{
