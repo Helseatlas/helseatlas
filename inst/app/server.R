@@ -29,46 +29,46 @@ shinyServer(
       # Define the atlas title, if not defined
       webpage_title <- c("Helseatlas","The Norwegian healthcare atlas")[lang]
     }
-    
-    level1 <- c(levels(factor(healthatlas_data$level1)))
 
-    level2 <- eventReactive(input$level1,{
-      tmpdata <- dplyr::filter(healthatlas_data, level1 == input$level1)
+    pickable_level1 <- c(levels(factor(healthatlas_data$level1)))
+
+    pickable_level2 <- eventReactive(input$menu_level1,{
+      tmpdata <- dplyr::filter(healthatlas_data, level1 == input$menu_level1)
       level2 <- c(levels(factor(tmpdata$level2)))
       return(level2)
     })
 
-    level3 <- eventReactive(c(input$level1, input$level2), {
-      if(is.null(input$level2)){return()}
-      tmpdata1 <- dplyr::filter(healthatlas_data, level1 == input$level1)
-      tmpdata2 <- dplyr::filter(tmpdata1, level2 == input$level2)
+    pickable_level3 <- eventReactive(c(input$menu_level1, input$menu_level2), {
+      if(is.null(input$menu_level2)){return()}
+      tmpdata1 <- dplyr::filter(healthatlas_data, level1 == input$menu_level1)
+      tmpdata2 <- dplyr::filter(tmpdata1, level2 == input$menu_level2)
       level3 <- c(levels(factor(tmpdata2$level3)))
       return(level3)
     })
 
     output$pickLevel1 <- renderUI({
-      selectInput(inputId = "level1",
+      selectInput(inputId = "menu_level1",
                   label = c("Velg et tema:", "Pick a subject")[lang],
-                  choices = level1,
-                  selected = level1[1])
+                  choices = pickable_level1,
+                  selected = pickable_level1[1])
     })
 
     output$pickLevel2 <- renderUI({
       if ("level2" %in% colnames(healthatlas_data)){
-        selectInput(inputId = "level2",
+        selectInput(inputId = "menu_level2",
                     label = c("Velg et tema:", "Pick a subject")[lang],
-                    choices = level2(),
-                    selected = level2()[1])
+                    choices = pickable_level2(),
+                    selected = pickable_level2()[1])
 
       }
     })
 
     output$pickLevel3 <- renderUI({
       if ("level3" %in% colnames(healthatlas_data)){
-        selectInput(inputId = "level3",
+        selectInput(inputId = "menu_level3",
                     label = c("Velg et tema:", "Pick a subject")[lang],
-                    choices = level3(),
-                    selected = level3()[1])
+                    choices = pickable_level3(),
+                    selected = pickable_level3()[1])
       }
     })
 
@@ -78,7 +78,7 @@ shinyServer(
     })
 
     kartlagInput <- reactive({
-      datasett <- shinymap::filterOut(healthatlas_data, filter1 = input$level1, filter2 = input$level2, filter3 = input$level3)
+      datasett <- shinymap::filterOut(healthatlas_data, filter1 = input$menu_level1, filter2 = input$menu_level2, filter3 = input$menu_level3)
       return(datasett)
     })
 
@@ -139,7 +139,7 @@ shinyServer(
     })
     
     output$histogram <- renderPlot({
-      shinymap::plotVariation(inputData = kartlagInput(), xlab = c("Opptaksomr\u00E5de", "Area")[lang], ylab = input$level1)
+      shinymap::plotVariation(inputData = kartlagInput(), xlab = c("Opptaksomr\u00E5de", "Area")[lang], ylab = input$menu_level1)
     })
 
     output$leafletmap <- leaflet::renderLeaflet({
