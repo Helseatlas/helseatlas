@@ -73,6 +73,7 @@ git clone git@github.com:helseatlas/shinymap
 
 ```r
 healthatlas_data <- shinymap::kols # or another dataset to use
+healthatlas_map <- shinymap::testmap # or another map to use
 language <- "no" # or "en"
 webpage_title <- "Helseatlas kols 2013-2015"
 ```
