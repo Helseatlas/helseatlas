@@ -34,7 +34,6 @@ matrix:
         - DIST=windows
         - RUN_LINTR=false
   allow_failures:
-    - os: osx
     - os: windows
 
 env:
@@ -59,6 +58,15 @@ r_packages:
   - lintr
   - roxygen2
   - pkgdown
+
+before_install:
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
+      brew update
+      brew install v8
+      brew tap homebrew/cask
+      brew cask install phantomjs
+    fi
 
 script:
   - R CMD build .
