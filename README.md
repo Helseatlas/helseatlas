@@ -106,3 +106,23 @@ git push
 
 - Create a [pull request](https://github.com/Helseatlas/shinymap/compare) (PR).
 - Wait for PR to me reviewed and tested.
+
+### Test the package locally
+
+The packages `testhat` and `shinytest` have to be installed if you want to test your local version of `shinymap`. In addition, you must install `PhantomJS`. The latter can be installed with the following R command:
+
+```r
+shinytest::installDependencies()
+```
+
+### Update documentation
+
+Run the following command to update the documentation in `man/`:
+
+```r
+roxygen2::roxygenise()
+```
+
+### File endings
+
+This repository is using LF (unix-style) line endings. If you are using Windows, please use `git config --global core.autocrlf false` if you want full control (take a look at [this post](https://stackoverflow.com/a/20653073)). Files can be converted from Windows-style file endings to unix-style by `dos2unix filename` in *git bash*. In *RStudio* you can go into `Tools/Global options/Code/Saving` and choose *Line ending conversion* to *None*.
