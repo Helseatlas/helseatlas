@@ -26,14 +26,14 @@ The input to the shiny app is a data frame containing the following columns:
 
 ```
 area
-level1
-(level2) # optional
-(level3) # optional
-rate
-numerater
-name_numerater
+level1_name
+(level2_name) # optional
+(level3_name) # optional
+value
+numerator
+numerator_name
 denominator
-name_denominator
+denominator_name
 ```
 
 If you want to test the package you can use a dataset shipped with the package, namely `shinymaps::kols`.
