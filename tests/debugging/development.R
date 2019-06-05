@@ -12,7 +12,27 @@ setwd("/Users/arnfinn/repo/shinymap")
 testdata <- readRDS("~/repo/shinymap/tests/testthat/data/kols.rds")
 save(testdata, file = "data/testdata.RData")
 
-testdata <- readRDS("~/repo/shinymap/tests/testthat/data/barn.rds")
+testdata <- get(load("data/kols.RData"))
+
+testdata <- readRDS("~/repo/shinymap/tests/testthat/data/start_plot.rds")
+
+testdata$area_name <- testdata$area
+testdata$level1_name <- testdata$level1
+testdata$level2_name <- testdata$level2
+testdata$level3_name <- testdata$level3
+testdata$value <- testdata$rate
+testdata <- within(testdata, rm(rate))
+testdata$denominator_name <- testdata$name_denominator
+testdata <- within(testdata, rm(name_denominator))
+testdata$numerator_name <- testdata$name_numerater
+testdata <- within(testdata, rm(name_numerater))
+testdata$numerator <- testdata$numerater
+testdata <- within(testdata, rm(numerater))
+
+start_plot <- testdata
+saveRDS(start_plot, file = "~/repo/shinymap/tests/testthat/data/start_plot.rds")
+
+save(kols, file = "data/kols.RData")
 save(testdata, file = "data/testdata.RData")
 
 testmap <- geojsonio::geojson_read("tests/testthat/data/maps/test.geojson", what = "sp")

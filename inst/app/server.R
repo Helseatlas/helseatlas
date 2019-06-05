@@ -6,7 +6,7 @@ shiny::shinyServer(
     }
 
     if (!exists("healthatlas_data")) {
-      healthatlas_data <- shinymap::testdata
+      healthatlas_data <- data::barn
     }
 
     if (!exists("healthatlas_map")) {
@@ -37,20 +37,20 @@ shiny::shinyServer(
       webpage_title <- c("Helseatlas", "The Norwegian healthcare atlas")[lang]
     }
 
-    pickable_level1 <- c(levels(factor(healthatlas_data$level1)))
+    pickable_level1 <- c(levels(factor(healthatlas_data$level1_name)))
 
     pickable_level2 <- shiny::eventReactive(input$menu_level1, {
-      tmpdata <- dplyr::filter(healthatlas_data, healthatlas_data$level1 == input$menu_level1)
-      return(c(levels(factor(tmpdata$level2))))
+      tmpdata <- dplyr::filter(healthatlas_data, healthatlas_data$level1_name == input$menu_level1)
+      return(c(levels(factor(tmpdata$level2_name))))
     })
 
     pickable_level3 <- shiny::eventReactive(c(input$menu_level1, input$menu_level2), {
       if (is.null(input$menu_level2)) {
         return()
       }
-      tmpdata1 <- dplyr::filter(healthatlas_data, healthatlas_data$level1 == input$menu_level1)
-      tmpdata2 <- dplyr::filter(tmpdata1, tmpdata1$level2 == input$menu_level2)
-      return(c(levels(factor(tmpdata2$level3))))
+      tmpdata1 <- dplyr::filter(healthatlas_data, healthatlas_data$level1_name == input$menu_level1)
+      tmpdata2 <- dplyr::filter(tmpdata1, tmpdata1$level2_name == input$menu_level2)
+      return(c(levels(factor(tmpdata2$level3_name))))
     })
 
     output$pick_level1 <- shiny::renderUI({
@@ -127,10 +127,10 @@ shiny::shinyServer(
     })
 
     picked_data <- shiny::reactive({
-      new_tab <- data.frame(kartlag_input()$area)
+      new_tab <- data.frame(kartlag_input()$area_name)
       colnames(new_tab) <- c(c("Opptaksomr", "Area")[lang])
-      new_tab[c("Rate", "Rate")[lang]] <- kartlag_input()$rate
-      new_tab[c("Antall", "Num")[lang]] <- kartlag_input()$numerater
+      new_tab[c("Rate", "Rate")[lang]] <- kartlag_input()$value
+      new_tab[c("Antall", "Num")[lang]] <- kartlag_input()$numerator
       new_tab[c("Innbyggere", "Inhab")[lang]] <- kartlag_input()$denominator
       return(new_tab)
     })
