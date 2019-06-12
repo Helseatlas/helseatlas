@@ -94,8 +94,7 @@ deploy:
   local_dir: docs                         # Deploy the docs folder
   on: # Only deploy if master branch, xenial build and with latest released version of R.
     branch: master
-    dist: xenial
-    r: release
+    condition: "$RUN_LINTR = true"
 
 notifications:
   email:
