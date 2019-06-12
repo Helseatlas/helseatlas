@@ -23,8 +23,9 @@ test_that("skde_colors is OK", {
   expect_warning(skde_colors(num = "qwerty"))
   expect_equal_to_reference(suppressWarnings(skde_colors(num = "qwerty")), "data/skde_colors_11.rds")
   expect_warning(skde_colors(num = c("qwerty", "asdfg", "zxcvb")))
-  expect_equal_to_reference(suppressWarnings(skde_colors(num = c("qwerty", "asdfg", "zxcvb"))), "data/skde_colors_11.rds")
-  expect_warning(skde_colors(num = FALSE))  
+  expect_equal_to_reference(suppressWarnings(skde_colors(num = c("qwerty", "asdfg", "zxcvb"))),
+                            "data/skde_colors_11.rds")
+  expect_warning(skde_colors(num = FALSE))
   expect_equal_to_reference(suppressWarnings(skde_colors(num = FALSE)), "data/skde_colors_11.rds")
   expect_error(skde_colors(num = NULL))
 })

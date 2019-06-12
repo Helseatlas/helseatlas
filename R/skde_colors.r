@@ -6,8 +6,10 @@
 #' @export
 #'
 skde_colors <- function(num = 4) {
-  # These colors have been taken from https://github.com/Rapporteket/rapbase/blob/22c3bfdf7f338fa939b59fb1ba7f6015dee125e8/R/LibFigFilType.R
-  all_colors <- c('#c6dbef', '#6baed6', '#4292c6', '#2171b5', '#084594', '#000059', '#FF7260', '#4D4D4D', '#737373', '#A6A6A6', '#DADADA')
+  # These colors have been taken from
+  # https://github.com/Rapporteket/rapbase/blob/22c3bfdf7f338fa939b59fb1ba7f6015dee125e8/R/LibFigFilType.R
+  all_colors <- c("#c6dbef", "#6baed6", "#4292c6", "#2171b5", "#084594", "#000059",
+                  "#FF7260", "#4D4D4D", "#737373", "#A6A6A6", "#DADADA")
   if (num == 1) {
     return(all_colors[c(4)])
   } else if (num == 2) {
@@ -23,5 +25,5 @@ skde_colors <- function(num = 4) {
   } else {
       warning(paste0("skde_colors should be run with num between 1 and ", length(all_colors)))
       return(all_colors)
-  } 
+  }
 }
