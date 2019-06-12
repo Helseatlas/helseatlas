@@ -15,21 +15,21 @@ plot_variation <- function(input_data = NULL, xlab = "Opptaksomr", ylab = "Rate"
     return(NULL)
   }
 
+  the_plot <- NULL
   if (type == "histogram") {
     # barplot
     input_data$area_name <- factor(input_data$area_name, levels = input_data$area_name[order(input_data$value)])
-    
+
     # extract the natural breaks
     input_data$brks <- shinymap::natural_breaks(data = input_data$value, num = num_groups)
 
-    ggplot2::ggplot(data = input_data,
+    the_plot <- ggplot2::ggplot(data = input_data,
       ggplot2::aes(x = get("area_name"), y = get("value"), fill = brks)) +
       ggplot2::geom_bar(stat = "identity") +
       ggplot2::scale_fill_manual(values = shinymap::skde_colors(num = num_groups)) +
       ggplot2::labs(x = xlab, y = ylab) +
       ggplot2::coord_flip() +
       ggthemes::theme_tufte()
-  } else {
-    return(NULL)
   }
+  return(the_plot)
 }
