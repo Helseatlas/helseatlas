@@ -201,7 +201,7 @@ shiny::shinyServer(
     })
 
     output$leafletmap <- leaflet::renderLeaflet({
-      shinymap::make_map(type = "leaflet", map = healthatlas_map)
+      shinymap::make_map(type = "leaflet", map = healthatlas_map, data = picked_data())
     })
   }
 )
