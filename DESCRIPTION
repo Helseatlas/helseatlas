@@ -25,8 +25,10 @@ Imports:
   magrittr,
   dplyr,
   ggthemes,
-  classInt,
-  kart
+  geojsonio,
+  rmapshaper,
+  rgdal,
+  classInt
 Suggests: 
     testthat,
     shinytest
