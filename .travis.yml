@@ -17,17 +17,6 @@ matrix:
       env: 
         - DIST=xenial
         - RUN_LINTR=false
-    - os: linux
-      dist: trusty
-      r: release
-      env: 
-        - DIST=trusty
-        - RUN_LINTR=false
-    - os: osx
-      r: release
-      env: 
-        - DIST=osx
-        - RUN_LINTR=false
     - os: windows
       r: release
       env: 
