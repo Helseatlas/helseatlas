@@ -18,11 +18,6 @@ launch_app <- function(dataset = NULL,
                        name = "experimental",
                        shiny_account = "skde",
                        HNproxy = FALSE) {
-  if (is.null(dataset)) {
-    # If no dataset is defined, use the dataset shipped with the shinymap package
-    # (for testing only)
-    dataset <- shinymap::kols
-  }
 
   # Create a directory with all necessary data.
   shinydir <- create_appdir(healthatlas_data = dataset,
