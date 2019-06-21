@@ -12,10 +12,18 @@ A working document on the process of going from IA to RShiny can be found [here]
 devtools::install_github("Helseatlas/shinymap")
 ```
 
-You have the run the following command first if you are behind Helse Nord proxy:
+### Install the package behind a proxy
 
 ```
-httr::set_config(httr::use_proxy(url="http://www-proxy.helsenord.no", port=8080))
+Sys.setenv(http_proxy="your.proxy.url:port")
+Sys.setenv(https_proxy="your.proxy.url:port")
+```
+
+Thus, if you are behind Helse Nord proxy, you do the following:
+
+```
+Sys.setenv(http_proxy="http://www-proxy.helsenord.no:8080")
+Sys.setenv(https_proxy="http://www-proxy.helsenord.no:8080")
 ```
 
 ## How to use the package
@@ -36,8 +44,7 @@ denominator
 denominator_name
 ```
 
-If you want to test the package you can use a dataset shipped with the package, namely `shinymaps::kols`.
-
+The data from the previous health atlases can be found in the package `Helseatlas/data` on [github](https://github.com/Helseatlas/data).
 
 ### Launch locally
 
