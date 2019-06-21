@@ -28,9 +28,7 @@ Imports:
   geojsonio,
   rmapshaper,
   rgdal,
-  classInt,
-  kart,
-  data
+  classInt
 Suggests: 
     testthat,
     shinytest
