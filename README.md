@@ -74,7 +74,7 @@ shinymap::launch_app()
 
 Run the command
 
-```
+```r
 shinymap::launch_app(publish_app = TRUE, name = <appName>, shiny_account = <publishing account>)
 ```
 
