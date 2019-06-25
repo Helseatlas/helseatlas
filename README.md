@@ -67,7 +67,7 @@ The data from the previous health atlases can be found in the package `Helseatla
 Run the command
 
 ```r
-shinymap::launch_application()
+shinymap::launch_app()
 ```
 
 ### Submit to shinyapps.io
@@ -75,7 +75,7 @@ shinymap::launch_application()
 Run the command
 
 ```
-shinymap::launch_application(publish_app = TRUE, name = <appName>, shiny_account = <publishing account>)
+shinymap::launch_app(publish_app = TRUE, name = <appName>, shiny_account = <publishing account>)
 ```
 
 Make sure that the version of `shinymap` installed and active in your Rsession is installed directly from github,
