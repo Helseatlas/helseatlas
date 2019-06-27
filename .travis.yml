@@ -71,6 +71,7 @@ deploy:
   on: # Only deploy if master branch, xenial build and with latest released version of R.
     branch: master
     condition: "$AFTER_JOBS = true"
+    type: push
 
 notifications:
   email:
