@@ -70,8 +70,8 @@ deploy:
   local_dir: docs                         # Deploy the docs folder
   on: # Only deploy if master branch, xenial build and with latest released version of R.
     branch: master
-    condition: "$AFTER_JOBS = true"
-    if: NOT type IN (cron, pull_request)
+    condition: "$AFTER_JOBS" = true
+    condition: "$TRAVIS_EVENT_TYPE" = "push"
 
 notifications:
   email:
