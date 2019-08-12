@@ -1,6 +1,33 @@
 library(magrittr)
 
-print(ls())
+# How to run the app through launch_app
+devtools::install_github("Helseatlas/kart")
+devtools::install_github("Helseatlas/data")
+devtools::install_github("Helseatlas/shinymap")
+shinymap::launch_app(
+  publish_app = FALSE,
+  title = "Helseatlas",
+  language = "no"
+)
+
+# How to submit to shinyapps.io through launch_app
+devtools::install_github("Helseatlas/kart")
+devtools::install_github("Helseatlas/data")
+devtools::install_github("Helseatlas/shinymap")
+shinymap::launch_app(
+  publish_app = TRUE,
+  name = "Helseatlas",
+  language = "no"
+)
+
+# How to run the app locally
+
+healthatlas_data <- shinymap::kols # or another dataset to use
+healthatlas_map <- geojsonio::geojson_read("tests/testthat/data/maps/test.geojson", what = "sp")
+
+language <- "no"
+webpage_title <- "Helseatlas kols 2013-2015"
+runApp("inst/app")
 
 rm(list = ls())
 
@@ -75,40 +102,6 @@ testdata$level3_name <- as.factor(gsub("Æ", "AE", testdata$level3_name))
 usethis::use_data(testdata, overwrite = TRUE)
 
 shinymap::testdata
-
-# How to run the app through launch_app
-
-devtools::install_github("Helseatlas/shinymap")
-shinymap::launch_app(
-  dataset = shinymap::kols,
-  map = geojsonio::geojson_read("tests/testthat/data/maps/test.geojson", what = "sp"),
-  publish_app = FALSE,
-  title = "Helseatlas kols",
-  language = "no"
-)
-
-
-# How to submit to shinyapps.io through launch_app
-devtools::install_github("Helseatlas/shinymap")
-shinymap::launch_app(
-  dataset = shinymap::kols,
-  map = geojsonio::geojson_read("tests/testthat/data/maps/test.geojson", what = "sp"),
-  publish_app = TRUE,
-  #                     HNproxy = TRUE,
-  title = "Helseatlas kols",
-  language = "no"
-)
-
-
-# How to run the app locally
-
-healthatlas_data <- shinymap::kols # or another dataset to use
-healthatlas_map <- geojsonio::geojson_read("tests/testthat/data/maps/test.geojson", what = "sp")
-
-language <- "en"
-language <- "no"
-webpage_title <- "Helseatlas kols 2013-2015"
-runApp("inst/app")
 
 
 # How two extra test maps were made
