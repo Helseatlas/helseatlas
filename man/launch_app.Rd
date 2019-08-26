@@ -6,7 +6,7 @@
 \usage{
 launch_app(dataset = NULL, map = NULL, language = NULL,
   title = NULL, publish_app = FALSE, name = "experimental",
-  shiny_account = "skde", HNproxy = FALSE)
+  shiny_account = "skde", proxy_url = FALSE)
 }
 \arguments{
 \item{dataset}{The data set to be loaded into the application}
@@ -23,7 +23,7 @@ launch_app(dataset = NULL, map = NULL, language = NULL,
 
 \item{shiny_account}{Which shiny account on shinyapps.io (default = "skde")}
 
-\item{HNproxy}{If TRUE: deploy app through Helse Nord proxy (default = FALSE)}
+\item{proxy_url}{If url is given: deploy app through proxy (default = FALSE)}
 }
 \description{
 Launch the application, either locally or to shinyapps.io

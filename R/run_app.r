@@ -7,7 +7,7 @@
 #' @param publish_app If TRUE: deploy app to shinyapps.io (default = FALSE)
 #' @param name The appName of the deployed shiny application (default = "experimental")
 #' @param shiny_account Which shiny account on shinyapps.io (default = "skde")
-#' @param HNproxy If TRUE: deploy app through Helse Nord proxy (default = FALSE)
+#' @param proxy_url If url is given: deploy app through proxy (default = FALSE)
 #'
 #' @export
 launch_app <- function(dataset = NULL,
@@ -17,7 +17,7 @@ launch_app <- function(dataset = NULL,
                        publish_app = FALSE,
                        name = "experimental",
                        shiny_account = "skde",
-                       HNproxy = FALSE) {
+                       proxy_url = FALSE) {
 
   # Create a directory with all necessary data.
   shinydir <- create_appdir(healthatlas_data = dataset,
@@ -27,8 +27,8 @@ launch_app <- function(dataset = NULL,
 
   # Run the app
   if (publish_app) {
-    if (HNproxy) {
-      options(RCurlOptions = list(proxy = "http://www-proxy.helsenord.no:8080"))
+    if (proxy_url) {
+      options(RCurlOptions = list(proxy = proxy_url))
       options(shinyapps.http = "rcurl")
     }
     rsconnect::deployApp(appDir = shinydir, appName = name, account = shiny_account)
