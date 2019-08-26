@@ -67,10 +67,9 @@ deploy:
   local_dir: docs                         # Deploy the docs folder
   on:
     branch: master
+    condition: "$AFTER_JOBS = true"
     type: push
     os: linux
-    dist: xenial
-    r: release
 
 notifications:
   email:
