@@ -37,17 +37,8 @@ shiny::shinyServer(
         shiny::selectInput(
           inputId = "atlas",
           label = c("Velg atlas:", "Pick an atlas")[lang],
-          choices = c("Dagkirurgi 2011-2013" = "dagkir",
-                      "Barn" = "barn",
-                      "Nyfødt" = "nyfodt",
-                      "Eldre" = "eldre",
-                      "Kols" = "kols",
-                      "Dagkirurgi 2013-2017" = "dagkir2",
-                      "Ortopedi" = "ortopedi",
-                      "Gynekologi" = "gyn",
-                      "Fødselshjelp" = "fodsel"
-          ),
-          selected = "dagkir"
+          choices = names(healthatlas_data),
+          selected = names(healthatlas_data)[1]
         )
       }
     })
@@ -57,26 +48,8 @@ shiny::shinyServer(
       if (!is.data.frame(healthatlas_data)) {
         if (is.null(input$atlas)){
           return(NULL)
-        } else if (input$atlas == "dagkir") {
-          return(data::dagkir)
-        } else if (input$atlas == "barn") {
-          return(data::barn)
-        } else if (input$atlas == "nyfodt") {
-          return(data::nyfodt)
-        } else if (input$atlas == "eldre") {
-          return(data::eldre)
-        } else if (input$atlas == "kols") {
-          return(data::kols)
-        } else if (input$atlas == "dagkir2") {
-          return(data::dagkir2)
-        } else if (input$atlas == "ortopedi") {
-          return(data::ortopedi)
-        } else if (input$atlas == "gyn") {
-          return(data::gyn)
-        } else if (input$atlas == "fodsel") {
-          return(data::fodsel)
         } else {
-          return(NULL)
+          return(healthatlas_data[[input$atlas]][[1]])
         }
       } else {
         return(healthatlas_data)
@@ -87,26 +60,8 @@ shiny::shinyServer(
       if (!is.data.frame(healthatlas_map)) {
         if (is.null(input$atlas)){
           return(NULL)
-        } else if (input$atlas == "dagkir") {
-          return(kart::utm33_to_leaflet(kart::dagkir))
-        } else if (input$atlas == "barn") {
-          return(kart::utm33_to_leaflet(kart::barn))
-        } else if (input$atlas == "nyfodt") {
-          return(kart::utm33_to_leaflet(kart::nyfodt))
-        } else if (input$atlas == "eldre") {
-          return(kart::utm33_to_leaflet(kart::eldre))
-        } else if (input$atlas == "kols") {
-          return(kart::utm33_to_leaflet(kart::kols))
-        } else if (input$atlas == "dagkir2") {
-          return(kart::utm33_to_leaflet(kart::dagkir2))
-        } else if (input$atlas == "gyn") {
-          return(kart::utm33_to_leaflet(kart::gyn))
-        } else if (input$atlas == "fodsel") {
-          return(kart::utm33_to_leaflet(kart::fodsel))
-        } else if (input$atlas == "ortopedi") {
-          return(kart::utm33_to_leaflet(kart::fodsel)) # Wrong map!
         } else {
-          return(NULL)
+          return(kart::utm33_to_leaflet(healthatlas_data[[input$atlas]][[2]]))
         }
       } else {
         return(healthatlas_map)
