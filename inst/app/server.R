@@ -1,9 +1,12 @@
+# Settings before server session starts
+
+if (file.exists("data/data.RData")) {
+  # load information sent through "launch_application"
+  load("data/data.RData")
+}
+
 shiny::shinyServer(
   function(input, output) {
-    if (file.exists("data/data.RData")) {
-      # load information sent through "launch_application"
-      load("data/data.RData")
-    }
 
     if (!exists("healthatlas_data")) {
       healthatlas_data <- NULL
