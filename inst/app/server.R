@@ -22,26 +22,39 @@ shiny::shinyServer(
       healthatlas_map <- shinymap::testmap
     }
 
-    if (!exists("language") || is.null(language)) {
-      # Define language to Norwegian, if not defined
-      language <- "no"
-    }
-
-    if (language == "no") {
-      lang <- 1
-    } else if (language == "en") {
-      lang <- 2
-    } else {
-      lang <- 1 # default language value
-    }
+    output$pick_language <- shiny::renderUI({
+        shiny::selectInput(
+          inputId = "language",
+          label = "",
+          choices = c("Norsk" = 1,
+                      "English" = 2
+          ),
+          selected = 1
+        )
+    })
 
     output$pick_atlas <- shiny::renderUI({
       if (!is.data.frame(healthatlas_data)) {
+        if (is.null(input$language)) {
+          return(NULL)
+        }
+
+        mytitle <- c()
+        atlasnames <- names(healthatlas_data)
+        for (i in atlasnames) {
+          if (input$language == "1") {
+            mytitle <- c(mytitle, paste(healthatlas_data[[i]]$title_no, healthatlas_data[[i]]$year, sep = " "))
+          } else if (input$language == "2") {
+            mytitle <- c(mytitle, paste(healthatlas_data[[i]]$title_en, healthatlas_data[[i]]$year, sep = " "))
+          }
+        }
+        names(atlasnames) <- mytitle
+
         shiny::selectInput(
           inputId = "atlas",
-          label = c("Velg atlas:", "Pick an atlas")[lang],
-          choices = names(healthatlas_data),
-          selected = names(healthatlas_data)[1]
+          label = c("Velg atlas:", "Pick an atlas")[as.numeric(input$language)],
+          choices = atlasnames,
+          selected = atlasnames[1]
         )
       }
     })
@@ -52,7 +65,7 @@ shiny::shinyServer(
         if (is.null(input$atlas)){
           return(NULL)
         } else {
-          return(healthatlas_data[[input$atlas]][[1]])
+          return(healthatlas_data[[input$atlas]][[as.numeric(input$language)]])
         }
       } else {
         return(healthatlas_data)
@@ -64,7 +77,7 @@ shiny::shinyServer(
         if (is.null(input$atlas)){
           return(NULL)
         } else {
-          return(kart::utm33_to_leaflet(healthatlas_data[[input$atlas]][[2]]))
+          return(kart::utm33_to_leaflet(healthatlas_data[[input$atlas]][["map"]]))
         }
       } else {
         return(healthatlas_map)
@@ -77,7 +90,7 @@ shiny::shinyServer(
       # The selector
       shiny::selectInput(
         inputId = "menu_level1",
-        label = c("Velg et tema:", "Pick a subject")[lang],
+        label = c("Velg et tema:", "Pick a subject")[as.numeric(input$language)],
         choices = pickable_level1,
         selected = pickable_level1[1]
       )
@@ -92,7 +105,7 @@ shiny::shinyServer(
         # The selector
         shiny::selectInput(
           inputId = "menu_level2",
-          label = c("Velg et tema:", "Pick a subject")[lang],
+          label = c("Velg et tema:", "Pick a subject")[as.numeric(input$language)],
           choices = pickable_level2,
           selected = pickable_level2[1]
         )
@@ -110,7 +123,7 @@ shiny::shinyServer(
         # The selector
         shiny::selectInput(
           inputId = "menu_level3",
-          label = c("Velg et tema:", "Pick a subject")[lang],
+          label = c("Velg et tema:", "Pick a subject")[as.numeric(input$language)],
           choices = pickable_level3,
           selected = pickable_level3[1]
         )
@@ -120,22 +133,22 @@ shiny::shinyServer(
     output$title <- shiny::renderUI({
       if (!exists("webpage_title") || is.null(webpage_title)) {
         # Define the atlas title, if not defined
-        webpage_title <- c("Helseatlas", "The Norwegian healthcare atlas")[lang]
+        webpage_title <- c("Helseatlas", "The Norwegian healthcare atlas")[as.numeric(input$language)]
       }
 
       return(shiny::HTML(paste0("<h1>", webpage_title, "</h1>")))
     })
 
     output$title_table <- shiny::renderUI({
-      return(c("Tabell", "Table")[lang])
+      return(c("Tabell", "Table")[as.numeric(input$language)])
     })
 
     output$title_map <- shiny::renderUI({
-      return(c("Kart", "Map")[lang])
+      return(c("Kart", "Map")[as.numeric(input$language)])
     })
 
     output$title_hist <- shiny::renderUI({
-      return(c("Histogram", "Histogram")[lang])
+      return(c("Histogram", "Histogram")[as.numeric(input$language)])
     })
 
     output$plot_map <- shiny::renderPlot({
@@ -162,7 +175,7 @@ shiny::shinyServer(
 
       plot <- shinymap::plot_variation(
         input_data = filtered_data,
-        xlab = c("Opptaksomr\u00E5de", "Area")[lang],
+        xlab = c("Opptaksomr\u00E5de", "Area")[as.numeric(input$language)],
         ylab = input$menu_level1
       )
       return(plot)
@@ -181,16 +194,18 @@ shiny::shinyServer(
       }
 
       tabular_data <- data.frame(filtered_data$area_name)
-      colnames(tabular_data) <- c(c("Opptaksomr", "Area")[lang])
-      tabular_data[c("Rate", "  Rate")[lang]] <- filtered_data$value
-      tabular_data[c("Antall", "  Num.")[lang]] <- filtered_data$numerator
-      tabular_data[c("Innb.", "Inhab.")[lang]] <- filtered_data$denominator
+      colnames(tabular_data) <- c(c("Opptaksomr", "Area")[as.numeric(input$language)])
+      tabular_data[c("Rate", "  Rate")[as.numeric(input$language)]] <- filtered_data$value
+      tabular_data[c("Antall", "  Num.")[as.numeric(input$language)]] <- filtered_data$numerator
+      tabular_data[c("Innb.", "Inhab.")[as.numeric(input$language)]] <- filtered_data$denominator
       # Format numbers
-      tabular_data[, -1] <- sapply(tabular_data[, -1], FUN = function(x) format(x,
-                                                                            digits = 2,
-                                                                            decimal.mark = c(",", ".")[lang],
-                                                                            big.mark = c(" ", ",")[lang]
-                                                                            ))
+      tabular_data[, -1] <- sapply(tabular_data[, -1],
+                                   FUN = function(x) format(x,
+                                                            digits = 2,
+                                                            decimal.mark = c(",", ".")[as.numeric(input$language)],
+                                                            big.mark = c(" ", ",")[as.numeric(input$language)]
+                                                            )
+                                   )
       return(tabular_data)
     }
     , align = "lrrr")
