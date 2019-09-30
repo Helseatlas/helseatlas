@@ -23,7 +23,7 @@ shiny::shinyServer(
     }
 
     output$pick_language <- shiny::renderUI({
-        shiny::selectInput(
+        shiny::radioButtons(
           inputId = "language",
           label = "",
           choices = c("NO" = 1,

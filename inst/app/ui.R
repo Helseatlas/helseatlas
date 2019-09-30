@@ -12,7 +12,7 @@ shinyUI(function(request) {
                     column(8,
                            uiOutput("title")
                     ),
-                    column(2, offset = 2,
+                    column(1, offset = 3,
                            uiOutput("pick_language")
                     )
                   ),
