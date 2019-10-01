@@ -5,8 +5,7 @@ shinyUI(function(request) {
                   titlePanel(tags$head(
                     tags$link(rel = "icon", type = "image/png", href = "hn.png"),
                     tags$title("Helseatlas"),
-                    tags$style(type = "text/css", "a{color: #808080;}"), # Link and inactive tab color
-                    tags$style(type = "text/css", "h1{color: #003A8C;}") # , # Title color
+                    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
                   )),
                   fluidRow(
                     column(8,
