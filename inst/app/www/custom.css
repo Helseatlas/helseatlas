@@ -18,3 +18,6 @@ h1 {
 .year-slider .irs-grid-pol.small {
     height: 0px;
 }
+
+.year-slider   .irs-min {visibility:hidden !important;}
+.year-slider   .irs-max {visibility:hidden !important;}
