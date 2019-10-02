@@ -23,7 +23,10 @@ shiny::shinyServer(
     }
 
     output$pick_language <- shiny::renderUI({
-        shiny::radioButtons(
+        shinyWidgets::radioGroupButtons(
+          size = "sm",
+          direction = "vertical",
+          status = "",
           inputId = "language",
           label = "",
           choices = c("NO" = 1,
@@ -62,7 +65,7 @@ shiny::shinyServer(
     atlas_data <- shiny::reactive({
       # Return the data for a given atlas.
       if (!is.data.frame(healthatlas_data)) {
-        if (is.null(input$atlas)){
+        if (is.null(input$atlas)) {
           return(NULL)
         } else {
           return(healthatlas_data[[input$atlas]][[as.numeric(input$language)]])
@@ -74,7 +77,7 @@ shiny::shinyServer(
 
     atlas_map <- shiny::reactive({
       if (!is.data.frame(healthatlas_map)) {
-        if (is.null(input$atlas)){
+        if (is.null(input$atlas)) {
           return(NULL)
         } else {
           return(kart::utm33_to_leaflet(healthatlas_data[[input$atlas]][["map"]]))
@@ -180,7 +183,7 @@ shiny::shinyServer(
     })
 
     output$plot_map <- shiny::renderPlot({
-      if (is.null(input$menu_level1) | isTRUE(getOption("shiny.testmode")) ) {
+      if (is.null(input$menu_level1) | isTRUE(getOption("shiny.testmode"))) {
         return(NULL)
       }
       filtered_data <- shinymap::filter_out(atlas_data(),
