@@ -15,19 +15,20 @@ all_data <- list(
   "dagir"    = list("data_no" = data::dagkir,   "data_en" = data::dagkir_en,  "year" = "2011–2013", "title_no" = "Dagkirurgi",   "title_en" = "Day surgey",  "map" = kart::dagkir)
 )
 
-# How to run the app through launch_app
+# Install packages from scratch
 devtools::install_github("Helseatlas/kart")
 devtools::install_github("Helseatlas/data")
 devtools::install_github("Helseatlas/shinymap")
+
+# How to run the app through launch_app
+# (remember to restart R session first)
 shinymap::launch_app(
   dataset = all_data,
   publish_app = FALSE
 )
 
 # How to submit to shinyapps.io through launch_app
-devtools::install_github("Helseatlas/kart")
-devtools::install_github("Helseatlas/data")
-devtools::install_github("Helseatlas/shinymap")
+# (remember to restart R session first)
 shinymap::launch_app(
   dataset = all_data,
   publish_app = TRUE
