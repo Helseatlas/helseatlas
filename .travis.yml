@@ -53,7 +53,7 @@ script:
   - R CMD check *tar.gz
   - |
     if [[ "$AFTER_JOBS" == "true" ]] && [[ "$TRAVIS_EVENT_TYPE" == "push" ]] && [[ "$TRAVIS_BRANCH" = "master" ]]; then
-      R -f deploy.R
+      R -f tests/scripts/deploy.R
     fi
 
 after_script:
