@@ -1,10 +1,9 @@
 [![Status](https://travis-ci.org/Helseatlas/shinymap.svg?branch=master)](https://travis-ci.org/Helseatlas/shinymap/builds)[![Coverage Status](https://img.shields.io/codecov/c/github/Helseatlas/shinymap/master.svg)](https://codecov.io/github/Helseatlas/shinymap?branch=master)
+[![Doc](https://img.shields.io/badge/Doc--grey.svg)](https://helseatlas.github.io/shinymap/)
 
 # Shinymap
 
-R-package to be used to produce maps on the helseatlas.no web page.
-
-A working document on the process of going from IA to RShiny can be found [here](https://www.overleaf.com/read/qknnddwjnpfn) (read only).
+R-package to be used to produce maps on the [helseatlas.no](https://helseatlas.no/) web page. Commits to the `master` branch will deploy to and update https://skde.shinyapps.io/helseatlas/
 
 ## How to install the package
 
@@ -55,6 +54,7 @@ denominator_name
 
 The data from the previous health atlases can be found in the package `Helseatlas/data` on [github](https://github.com/Helseatlas/data).
 
+
 ### Launch locally
 
 Run the command
@@ -72,7 +72,16 @@ shinymap::launch_app(publish_app = TRUE, name = <appName>, shiny_account = <publ
 ```
 
 Make sure that the version of `shinymap` installed and active in your Rsession is installed directly from github,
-since it also has to be installed on *shinyapps.io*. Also remember to connect to your *shinyapps.io* profile.
+since it also has to be installed on *shinyapps.io*. Also remember to connect to your *shinyapps.io* profile. This can be done with the following command:
+
+```r
+rsconnect::setAccountInfo(name   = <shinyapps_name>,
+                          token  = <shinyapps_token>,
+                          secret = <shinyapps_secret>)
+                          )
+```
+
+The `name`, `token` and `secret` can be found here: https://www.shinyapps.io/admin/#/tokens
 
 ## Run a local copy of the package
 
@@ -88,9 +97,8 @@ git clone git@github.com:helseatlas/shinymap
 - Put some data in `healthatlas_data` and define some parametres
 
 ```r
-healthatlas_data <- shinymap::kols # or another dataset to use
-healthatlas_map <- shinymap::testmap # or another map to use
-language <- "no" # or "en"
+healthatlas_data <- data::kols # or another dataset to use
+healthatlas_map <- kart::kols # or another map to use
 webpage_title <- "Helseatlas kols 2013-2015"
 ```
 
@@ -129,6 +137,12 @@ The packages `testhat` and `shinytest` have to be installed if you want to test 
 
 ```r
 shinytest::installDependencies()
+```
+
+The package can then be tested by `devtools`:
+
+```r
+devtools::test()
 ```
 
 ### Update documentation
