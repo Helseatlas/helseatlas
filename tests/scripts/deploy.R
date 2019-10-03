@@ -1,3 +1,5 @@
+install.packages("devtools")
+
 devtools::install_github("Helseatlas/kart")
 devtools::install_github("Helseatlas/data")
 devtools::install_github("Helseatlas/shinymap")
