@@ -239,7 +239,7 @@ shiny::shinyServer(
       denominator_name <- as.character(unique(filtered_data$denominator_name))
       tabular_data[denominator_name] <- filtered_data$denominator
       # Sort data
-      tabular_data <- tabular_data[order(tabular_data[,2], na.last = TRUE, decreasing = TRUE),]
+      tabular_data <- tabular_data[order(tabular_data[, 2], na.last = TRUE, decreasing = TRUE), ]
       # Format numbers
       tabular_data[, -1] <- sapply(tabular_data[, -1],
                                    FUN = function(x) format(x,

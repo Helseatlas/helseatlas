@@ -2,6 +2,10 @@ library(magrittr)
 
 rm(list=ls())
 
+# Install packages with data and maps
+devtools::install_github("Helseatlas/kart")
+devtools::install_github("Helseatlas/data")
+
 # All atlas data and maps
 all_data <- list(
   "fodsel"   = list("data_no" = data::fodsel,   "data_en" = data::fodsel_en,  "year" = "2015–2017", "title_no" = "Fødselshjelp", "title_en" = "Obstetrics",  "map" = kart::fodsel),
@@ -15,22 +19,25 @@ all_data <- list(
   "dagir"    = list("data_no" = data::dagkir,   "data_en" = data::dagkir_en,  "year" = "2011–2013", "title_no" = "Dagkirurgi",   "title_en" = "Day surgey",  "map" = kart::dagkir)
 )
 
-# Install packages from scratch
-devtools::install_github("Helseatlas/kart")
-devtools::install_github("Helseatlas/data")
-devtools::install_github("Helseatlas/shinymap")
 
-# How to run the app through launch_app
-# (remember to restart R session first)
-.rs.restartR()
+#########################################
+# How to run the app through launch_app #
+#########################################
+
 shinymap::launch_app(
   dataset = all_data,
   publish_app = FALSE
 )
 
-# How to submit to shinyapps.io through launch_app
-# (remember to restart R session first)
+####################################################
+# How to submit to shinyapps.io through launch_app #
+####################################################
+
+# Install the shinymap package
+devtools::install_github("Helseatlas/shinymap")
+# Restart R session
 .rs.restartR()
+# Launch app
 shinymap::launch_app(
   dataset = all_data,
   publish_app = TRUE
