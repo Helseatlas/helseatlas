@@ -63,10 +63,12 @@ all_data <- list(
 )
 
 rsconnect::setAccountInfo(name   = Sys.getenv("shinyapps_name"),
-               token  = Sys.getenv("shinyapps_token"),
-               secret = Sys.getenv("shinyapps_secret"))
+                          token  = Sys.getenv("shinyapps_token"),
+                          secret = Sys.getenv("shinyapps_secret")
+                          )
 
 shinymap::launch_app(
   dataset = all_data,
-  publish_app = TRUE
+  publish_app = TRUE,
+  name = "helseatlas"
 )
