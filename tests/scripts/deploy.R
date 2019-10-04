@@ -1,8 +1,7 @@
-install.packages("devtools")
+install.packages("remotes")
 
-devtools::install_github("Helseatlas/kart")
-devtools::install_github("Helseatlas/data")
-devtools::install_github("Helseatlas/shinymap")
+remotes::install_github("Helseatlas/kart")
+remotes::install_github("Helseatlas/data")
 
 # All atlas data and maps
 all_data <- list(
@@ -67,8 +66,15 @@ rsconnect::setAccountInfo(name   = Sys.getenv("shinyapps_name"),
                           secret = Sys.getenv("shinyapps_secret")
                           )
 
-shinymap::launch_app(
-  dataset = all_data,
-  publish_app = TRUE,
-  name = "helseatlas"
-)
+if (Sys.getenv("TRAVIS_BRANCH") == "master") {
+  shinymap::launch_app(
+    dataset = all_data,
+    publish_app = TRUE,
+    name = "helseatlas"
+  )
+} else {
+  shinymap::launch_app(
+    dataset = all_data,
+    publish_app = TRUE
+  )
+}
