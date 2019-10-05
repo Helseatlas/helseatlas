@@ -16,6 +16,14 @@ shiny::shinyServer(
       healthatlas_map <- NULL
     }
 
+    if (!exists("git_hash")) {
+      git_hash <- NULL
+    }
+
+    if (!exists("github_repo")) {
+      github_repo <- NULL
+    }
+
     if (isTRUE(getOption("shiny.testmode"))) {
       # Load static/dummy data if this is a test run
       healthatlas_data <- shinymap::testdata
@@ -159,6 +167,24 @@ shiny::shinyServer(
           choices = pickable_level3,
           selected = pickable_level3[1]
         )
+      }
+    })
+
+    output$git_version <- shiny::renderUI({
+      if (!is.null(git_hash)) {
+        if (is.null(github_repo)) {
+          version_num <- substr(git_hash, 1, 8)
+        } else {
+          version_num <- paste0("<a href='https://github.com/",
+                                github_repo,
+                                "/tree/",
+                                git_hash,
+                                "'>",
+                                substr(git_hash, 1, 8),
+                                "</a>")
+        }
+        # Hash on web page, if given
+        return(shiny::HTML(paste0("Version: ", version_num)))
       }
     })
 
