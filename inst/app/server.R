@@ -92,7 +92,7 @@ shiny::shinyServer(
           return(sf::st_transform(healthatlas_data[[input$atlas]][["map"]], 32633))
         }
       } else {
-        return(kart::utm33_to_leaflet(healthatlas_map))
+        return(sf::st_transform(healthatlas_map, 32633))
       }
     })
 
