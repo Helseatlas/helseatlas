@@ -3,6 +3,7 @@
 if (file.exists("data/data.RData")) {
   # load information sent through "launch_application"
   load("data/data.RData")
+  healthatlas_data <- app_data
 }
 
 shiny::shinyServer(
