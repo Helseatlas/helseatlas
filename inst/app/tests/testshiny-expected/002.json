@@ -13,7 +13,7 @@
       "deps": [
         {
           "name": "shinyWidgets",
-          "version": "0.4.9",
+          "version": "0.5.0",
           "src": {
             "href": "shinyWidgets"
           },
@@ -46,7 +46,7 @@
       ]
     },
     "plot_map": {
-      "src": "[image data sha1: b864154dc2e45492fa7b5b85ae19b2b9c4028155]",
+      "src": "[image data sha1: 6e00f25e8352416fcd42a460e2e657c7e881a327]",
       "width": 600,
       "height": 800,
       "coordmap": {
