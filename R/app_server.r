@@ -1,15 +1,13 @@
-# Settings before server session starts
-
-if (file.exists("data/data.RData")) {
-  # load information sent through "launch_application"
-  load("data/data.RData")
-  healthatlas_data <- app_data
-}
-
-shiny::shinyServer(
-  function(input, output) {
-
-    if (!exists("healthatlas_data")) {
+#' Server side logic of the application
+#'
+#' @param input shiny input components
+#' @param output shiny output components
+#' @param session the shiny session parameter
+#'
+#' @return ignored
+#' @export
+app_server <- function(input, output, session) {
+        if (!exists("healthatlas_data")) {
       healthatlas_data <- NULL
     }
 
@@ -199,15 +197,15 @@ shiny::shinyServer(
     })
 
     output$title_table <- shiny::renderUI({
-      return(icon("table"))
+      return(shiny::icon("table"))
     })
 
     output$title_map <- shiny::renderUI({
-      return(icon("globe"))
+      return(shiny::icon("globe"))
     })
 
     output$title_hist <- shiny::renderUI({
-      return(icon("chart-bar"))
+      return(shiny::icon("chart-bar"))
     })
 
     output$plot_map <- shiny::renderPlot({
@@ -280,5 +278,4 @@ shiny::shinyServer(
     }
     , align = "lrrr")
 
-  }
-)
+}
