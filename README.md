@@ -36,52 +36,11 @@ This file has to be saved in your `$HOME` directory, which typically is somethin
 
 ## How to use the package
 
-### Input data
+### Run the app
 
-The input to the shiny app is a data frame containing the following columns:
-
+```R
+shinymap::run_app()
 ```
-area
-level1_name
-(level2_name) # optional
-(level3_name) # optional
-value
-numerator
-numerator_name
-denominator
-denominator_name
-```
-
-The data from the previous health atlases can be found in the package `Helseatlas/data` on [github](https://github.com/Helseatlas/data).
-
-
-### Launch locally
-
-Run the command
-
-```r
-shinymap::launch_app()
-```
-
-### Submit to shinyapps.io
-
-Run the command
-
-```r
-shinymap::launch_app(publish_app = TRUE, name = <appName>, shiny_account = <publishing account>)
-```
-
-Make sure that the version of `shinymap` installed and active in your Rsession is installed directly from github,
-since it also has to be installed on *shinyapps.io*. Also remember to connect to your *shinyapps.io* profile. This can be done with the following command:
-
-```r
-rsconnect::setAccountInfo(name   = <shinyapps_name>,
-                          token  = <shinyapps_token>,
-                          secret = <shinyapps_secret>)
-                          )
-```
-
-The `name`, `token` and `secret` can be found here: https://www.shinyapps.io/admin/#/tokens
 
 ## Run a local copy of the package
 
@@ -94,19 +53,6 @@ git clone git@github.com:helseatlas/shinymap
 - Open the `shinymap` folder in *RStudio*
 - Install required packages, if not installed already. This can be done by `devtools::install_github("Helseatlas/shinymap")`. This will install the shinymap package from github and at the same time install all the required packages.
 - Build the package (Ctrl+Shift+B on Windows/Linux or &#8984;-&#8679;-B on Mac).
-- Put some data in `healthatlas_data` and define some parametres
-
-```r
-healthatlas_data <- data::kols # or another dataset to use
-healthatlas_map <- kart::kols # or another map to use
-webpage_title <- "Helseatlas kols 2013-2015"
-```
-
-- Run the app, either by open the file `inst/app/server.R` and push the button or
-
-```r
-shiny::runApp('inst/app')
-```
 
 ## Contribute
 
