@@ -1,15 +1,12 @@
 #!/bin/bash
 
-if [[ "$TRAVIS_R_VERSION_STRING" == "release" ]]; then
+if [[ "$TRAVIS_TAG" == "true" ]]; then
   echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  if [[ "$TRAVIS_TAG" == "true" ]]; then
-    docker push hnskde/helseatlas
-  fi
-
-  if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-    docker tag hnskde/helseatlas hnskde/helseatlas:test
-    docker push hnskde/helseatlas:test
-  fi
+  docker push hnskde/helseatlas
+elif [[ "$TRAVIS_BRANCH" == "master" ]]; then
+  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  docker tag hnskde/helseatlas hnskde/helseatlas:test
+  docker push hnskde/helseatlas:test
 else
   echo "Do not deploy. Neither master branch nor a release."
 fi
