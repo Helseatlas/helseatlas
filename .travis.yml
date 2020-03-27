@@ -61,6 +61,8 @@ deploy:
   - provider: script
     script: bash docker_push
     skip_cleanup: true
+    on:
+      all_branches: true
 
 notifications:
   email:
