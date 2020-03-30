@@ -1,7 +1,7 @@
 [![Status](https://travis-ci.org/helseatlas/helseatlas.svg?branch=master)](https://travis-ci.org/helseatlas/helseatlas/builds)[![Coverage Status](https://img.shields.io/codecov/c/github/helseatlas/helseatlas/master.svg)](https://codecov.io/github/helseatlas/helseatlas?branch=master)
 [![Doc](https://img.shields.io/badge/Doc--grey.svg)](https://helseatlas.github.io/helseatlas/)
 
-# Shinymap
+# Helseatlas
 
 R-package to be used to produce maps on the [helseatlas.no](https://helseatlas.no/) web page. Commits to the `master` branch will deploy to and update https://skde.shinyapps.io/helseatlas/
 
