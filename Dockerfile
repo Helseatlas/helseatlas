@@ -3,6 +3,8 @@ FROM hnskde/helseatlas-base-r
 LABEL maintainer "Arnfinn Hykkerud Steindal <arnfinn.steindal@gmail.com>"
 LABEL no.mongr.cd.enable="true"
 
+ARG GITHUB_PAT
+
 RUN R -e "remotes::install_github('helseatlas/kart')"
 RUN R -e "remotes::install_github('helseatlas/data')"
 
