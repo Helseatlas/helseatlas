@@ -3,7 +3,7 @@
 
 # Helseatlas
 
-R-package to be used to produce maps on the [helseatlas.no](https://helseatlas.no/) web page. Commits to the `master` branch will deploy to and update https://skde.shinyapps.io/helseatlas/
+R-package to be used to produce maps on the [helseatlas.no](https://helseatlas.no/) web page.
 
 ## How to install the package
 
@@ -56,11 +56,10 @@ git clone git@github.com:helseatlas/helseatlas
 
 ## Contribute
 
-- [Fork me](https://github.com/helseatlas/helseatlas/fork)
-- Clone your fork (replace `<username` with your github user name), create a branch and push it
+- Make a clone, create a branch and push it
 
 ```bash
-git clone git@github.com:<username>/helseatlas
+git clone git@github.com:helseatlas/helseatlas
 cd helseatlas
 git checkout -b super-duper-idea
 git push -u origin super-duper-idea
