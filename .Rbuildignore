@@ -4,3 +4,4 @@
 ^\.travis\.yml$
 ^codecov\.yml$
 ^\.lintr$
+^Dockerfile$
