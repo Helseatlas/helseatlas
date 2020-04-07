@@ -8,7 +8,9 @@
 #' @param num_groups Number of natural break groups
 #'
 #' @export
-plot_variation <- function(input_data = NULL, xlab = "Opptaksomr", ylab = "Rate", type = "histogram", num_groups = 4) {
+plot_variation <- function(input_data = NULL, xlab = "Area", ylab = "Rate", type = "histogram", num_groups = 5) {
+
+  options(encoding = "UTF-8")
 
   # Avoid errors if not everything is updated on the server side
   if (is.null(input_data) || length(input_data$value) == 0) {
@@ -23,13 +25,26 @@ plot_variation <- function(input_data = NULL, xlab = "Opptaksomr", ylab = "Rate"
     # extract the natural breaks
     input_data$brks <- helseatlas::natural_breaks(data = input_data$value, num = num_groups)
 
-    the_plot <- ggplot2::ggplot(data = input_data,
+    # norwegian average
+    norway_avg <- dplyr::filter(input_data, input_data[["area"]] == 8888)
+
+    the_plot <-
+      ggplot2::ggplot(data = input_data,
       ggplot2::aes(x = get("area_name"), y = get("value"), fill = get("brks"))) +
+
       ggplot2::geom_bar(stat = "identity") +
+      ggplot2::geom_bar(data = norway_avg, fill = "grey", stat = "identity") +
+
       ggplot2::scale_fill_manual(values = SKDEr::skde_colors(num = num_groups)) +
-      ggplot2::labs(x = xlab, y = ylab) +
+      ggplot2::labs(x = xlab, y = ylab, fill = "breaks", caption = "Kilde: NPR/SSB") +
       ggplot2::coord_flip() +
-      ggthemes::theme_tufte()
+
+      # theme
+      ggthemes::theme_tufte() +
+      ggplot2::theme(text = ggplot2::element_text(size = 14),
+                     axis.line = ggplot2::element_line(color = "black"),
+                     axis.ticks.y = ggplot2::element_blank()) +
+      ggplot2::scale_y_continuous(expand = c(0, 0))
   }
   return(the_plot)
 }
