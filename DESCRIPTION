@@ -1,6 +1,6 @@
 Package: helseatlas
 Title: R-package to produce shiny maps of Norway
-Version: 0.11.0
+Version: 0.11.0.9000
 Authors@R: c(
     person(given = "Arnfinn Hykkerud",
            family = "Steindal",
