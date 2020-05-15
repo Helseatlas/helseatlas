@@ -26,12 +26,9 @@ app_ui <- function() {
                     ),
                     shiny::column(9,
                                   shiny::tabsetPanel(
-                                    shiny::tabPanel(shiny::icon("globe"), leaflet::leafletOutput("plot_map",
-                                                                                                         height = 800
-                                                                                                         )
-                                                    ),
-                                    shiny::tabPanel(shiny::icon("chart-bar"), shiny::plotOutput("plot_histogram")),
-                                    shiny::tabPanel(shiny::icon("table"), DT::DTOutput("make_table"))
-                           ))
-                    ))
+                                    shiny::tabPanel(shiny::icon("globe"),       tab_ui1("plots")),
+                                    shiny::tabPanel(shiny::icon("chart-bar"),   tab_ui2("plots")),
+                                    shiny::tabPanel(shiny::icon("table"),       tab_ui3("plots"))
+                                  ))
+                  ))
 }

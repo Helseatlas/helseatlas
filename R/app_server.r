@@ -69,57 +69,12 @@ app_server <- function(input, output, session) {
       return(shiny::HTML(paste0("<h1>", webpage_title, "</h1>")))
     })
 
-    output$plot_map <- leaflet::renderLeaflet({
-      shiny::req(selection)
-      map_to_plot <- sf::st_transform(healthatlas_data[[selection$atlas()]][["map"]], 32633)
-      map <- helseatlas::make_map(map = map_to_plot, data = selection$data())
-      return(map)
-    })
-
-    output$plot_histogram <- shiny::renderPlot({
-      shiny::req(selection)
-      plot <- helseatlas::plot_variation(
-        input_data = selection$data(),
-        xlab = config$plot$xlab[[input$language]],
-        ylab = "TBA"
-      )
-      return(plot)
-    }
-    , height = 800, width = 600)
-
-    output$make_table <- DT::renderDT({
-      shiny::req(selection)
-      data_to_tabulate <- selection$data()
-
-      # Return null if data in invalid
-      if (is.null(nrow(data_to_tabulate)) || nrow(data_to_tabulate) == 0) {
-        return(NULL)
-      }
-
-      tabular_data <- data.frame(data_to_tabulate$area_name)
-      colnames(tabular_data) <- c(config$plot$xlab[[input$language]])
-      value_name <- as.character(unique(data_to_tabulate$type))
-      tabular_data[value_name] <- data_to_tabulate$value
-      numerator_name <- as.character(unique(data_to_tabulate$numerator_name))
-      tabular_data[numerator_name] <- data_to_tabulate$numerator
-      denominator_name <- as.character(unique(data_to_tabulate$denominator_name))
-      tabular_data[denominator_name] <- data_to_tabulate$denominator
-      # Sort data
-      tabular_data <- tabular_data[order(tabular_data[, 2], na.last = TRUE, decreasing = TRUE), ]
-      # Format numbers
-      tabular_data[, -1] <- sapply(tabular_data[, -1],
-                                   FUN = function(x) format(x,
-                                                            digits = 2,
-                                                            decimal.mark = config$num$decimal[[input$language]],
-                                                            big.mark = config$num$big[[input$language]]
-                                                            )
-                                   )
-      return(tabular_data)
-
-    }
-    , rownames = FALSE
-    , options = list(columnDefs = list(list(class = "dt-right", targets = 1:3)),
-                                info = FALSE, lengthMenu = list(c(-1, 15), c("All", "15"))))
+    tab_server("plots",
+               data = selection$data,
+               map = shiny::reactive(healthatlas_data[[selection$atlas()]]$map),
+               config = config,
+               language = shiny::reactive(input$language)
+               )
 
   output$app_info <- shiny::renderUI({
     shiny::actionButton(
