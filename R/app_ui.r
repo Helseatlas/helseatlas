@@ -30,7 +30,7 @@ app_ui <- function() {
                                                                                                          height = 800
                                                                                                          )
                                                     ),
-                                    shiny::tabPanel(shiny::icon("chart-bar"), shiny::plotOutput("plot_histogram")),
+                                    shiny::tabPanel(shiny::icon("chart-bar"), plotly::plotlyOutput("plot_histogram")),
                                     shiny::tabPanel(shiny::icon("table"), DT::DTOutput("make_table"))
                            ))
                     ))

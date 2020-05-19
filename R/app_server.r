@@ -76,16 +76,16 @@ app_server <- function(input, output, session) {
       return(map)
     })
 
-    output$plot_histogram <- shiny::renderPlot({
+    output$plot_histogram <- plotly::renderPlotly({
       shiny::req(selection)
       plot <- helseatlas::plot_variation(
         input_data = selection$data(),
         xlab = config$plot$xlab[[input$language]],
-        ylab = "TBA"
+        ylab = as.character(selection$data()$type)
       )
       return(plot)
     }
-    , height = 800, width = 600)
+   )
 
     output$make_table <- DT::renderDT({
       shiny::req(selection)

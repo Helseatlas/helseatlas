@@ -18,9 +18,9 @@ make_map <- function(data = NULL, map = NULL) {
   simple_data <- data[c("area", "value", "area_name", "type")]
   # Join data with map
   map_data@data <- dplyr::left_join(map_data@data, simple_data, by = c("area_num" = "area"))
-  pal <- leaflet::colorBin(palette = SKDEr::skde_colors(num = 5),
+  pal <- leaflet::colorBin(palette = SKDEr::skde_colors(num = 4),
                            domain = map_data@data$value,
-                           bins = 5,
+                           bins = 4,
                            pretty = FALSE)
   output <- map_data %>%
     leaflet::leaflet(options = leaflet::leafletOptions(minZoom = 5, maxZoom = 5)) %>%
