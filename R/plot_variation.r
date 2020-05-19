@@ -34,8 +34,8 @@ plot_variation <- function(input_data = NULL, xlab = "Area", ylab = "Rate", type
       ggplot2::ggplot(data = input_data,
       ggplot2::aes(x = get("area_name"), y = get("value"), fill = get("brks"), 
                    text = paste(get("area_name"), "<br>", 
-                                get("type"), ": ", get("value"), "<br>",
-                                get("numerator_name"), ": ", get("numerator")))) +
+                                get("type"), ":", get("value"), "<br>",
+                                get("numerator_name"), ":", get("numerator")))) +
 
       ggplot2::geom_bar(stat = "identity") +
       ggplot2::geom_bar(data = norway_avg, fill = "grey", stat = "identity") +
