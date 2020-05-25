@@ -21,6 +21,7 @@ app_ui <- function() {
                   shiny::fluidRow(
                     shiny::column(3,
                                   select_ui("atlas"),
+                                  shiny::htmlOutput("desc_text"),
                                   shiny::uiOutput("app_info"),
                                   shiny::uiOutput("git_version")
                     ),
