@@ -8,7 +8,7 @@ tab_ui1 <-  function(id) {
 
 tab_ui2 <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(plotly::plotlyOutput(ns("plot_histogram"))
+  shiny::tagList(plotly::plotlyOutput(ns("plot_histogram"), height = 800)
    )
   }
 
@@ -22,7 +22,9 @@ tab_server <- function(id, data, map, config, language) {
   shiny::moduleServer(id, function(input, output, session) {
     # MAP
     output$plot_map <- leaflet::renderLeaflet({
-      map <- helseatlas::make_map(map = map(), data = data())
+      map <- helseatlas::make_map(map = map(), data = data(),
+                                  decimal_mark = config$num$decimal[[language()]],
+                                  big_mark = config$num$big[[language()]])
       return(map)
      }
     )
@@ -31,7 +33,9 @@ tab_server <- function(id, data, map, config, language) {
       plot <- helseatlas::plot_variation(
         input_data = data(),
         xlab = config$plot$xlab[[language()]],
-        ylab = as.character(data()$type)
+        ylab = as.character(data()$type),
+        decimal_mark = config$num$decimal[[language()]],
+        big_mark = config$num$big[[language()]]
         )
       return(plot)
       }

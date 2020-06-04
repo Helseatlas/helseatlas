@@ -6,9 +6,12 @@
 #' @param xlab Label on x-axis
 #' @param ylab Label on y-axis
 #' @param num_groups Number of natural break groups
+#' @param decimal_mark sign to use for decimal
+#' @param big_mark sign to use for numbers over a thousand
 #'
 #' @export
-plot_variation <- function(input_data = NULL, xlab = "Area", ylab = "Rate", type = "histogram", num_groups = 5) {
+plot_variation <- function(input_data = NULL, xlab = "Area", ylab = "Rate", type = "histogram", num_groups = 5,
+                           decimal_mark = ",", big_mark = " ") {
 
   options(encoding = "UTF-8")
 
@@ -31,9 +34,9 @@ plot_variation <- function(input_data = NULL, xlab = "Area", ylab = "Rate", type
     the_plot <-
       ggplot2::ggplot(data = input_data,
       ggplot2::aes(x = get("area_name"), y = get("value"), fill = get("brks"),
-                   text = paste(get("area_name"), "<br>",
-                                get("type"), ":", get("value"), "<br>",
-                                get("numerator_name"), ":", get("numerator")))) +
+                   text = paste("<b>", get("area_name"), "</b><br>",
+                                get("type"), ":", format(get("value"), decimal.mark = decimal_mark, digits = 2), "<br>",
+                                get("numerator_name"), ":", format(get("numerator"), big.mark = big_mark)))) +
 
       ggplot2::geom_bar(stat = "identity") +
       ggplot2::geom_bar(data = norway_avg, fill = "grey", stat = "identity") +
